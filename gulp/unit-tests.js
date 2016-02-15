@@ -7,12 +7,11 @@ var conf = require('./conf');
 var karma = require('karma');
 
 var pathSrcHtml = [
-  path.join(conf.paths.tmp, '/serve/**/*.html'),
   path.join(conf.paths.src, '/**/*.html')
 ];
 
 var pathSrcJs = [
-  path.join(conf.paths.tmp, '/serve/app/index.module.js')
+  path.join(conf.paths.src, '/**/!(*.spec).js')
 ];
 
 function runTests (singleRun, done) {
@@ -44,10 +43,10 @@ function runTests (singleRun, done) {
   server.start();
 }
 
-gulp.task('test', ['scripts:test', 'markups'], function(done) {
+gulp.task('test', ['scripts'], function(done) {
   runTests(true, done);
 });
 
-gulp.task('test:auto', ['scripts:test-watch'], function(done) {
+gulp.task('test:auto', ['watch'], function(done) {
   runTests(false, done);
 });

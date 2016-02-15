@@ -33,13 +33,13 @@
         "extension": "less"
       },
       "jsPreprocessor": {
-        "key": "typescript",
-        "extension": "ts",
-        "srcExtension": "ts"
+        "key": "noJsPrepro",
+        "extension": "js",
+        "srcExtension": "js"
       },
       "htmlPreprocessor": {
-        "key": "haml",
-        "extension": "haml"
+        "key": "noHtmlPrepro",
+        "extension": "html"
       },
       "foundationComponents": {
         "name": null,

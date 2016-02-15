@@ -1,21 +1,13 @@
-export interface ITecThing {
-  rank: number;
-  title: string;
-  url: string;
-  description: string;
-  logo: string;
-}
+(function() {
+  'use strict';
 
-export class WebDevTecService {
-  public data: ITecThing[];
-
-  public get tec(): ITecThing[] {
-    return this.data;
-  }
+  angular
+      .module('exampleAngular')
+      .service('webDevTec', webDevTec);
 
   /** @ngInject */
-  constructor () {
-    var rawData = [
+  function webDevTec() {
+    var data = [
       {
         'title': 'AngularJS',
         'url': 'https://angularjs.org/',
@@ -69,25 +61,14 @@ export class WebDevTecService {
         'url': 'http://lesscss.org/',
         'description': 'Less extends the CSS language, adding features that allow variables, mixins, functions and many other techniques.',
         'logo': 'less.png'
-      },
-      {
-        'title': 'TypeScript',
-        'url': 'http://www.typescriptlang.org/',
-        'description': 'TypeScript, a typed superset of JavaScript that compiles to plain JavaScript.',
-        'logo': 'typescript.png'
-      },
-      {
-        'key': 'haml',
-        'title': 'HAML',
-        'url': 'http://haml.info/',
-        'description': 'Beautiful, DRY, well-indented, clear markup: templating haiku.',
-        'logo': 'haml.png'
       }
     ];
 
-    this.data = rawData.map((awesomeThing: ITecThing) => {
-      awesomeThing.rank = Math.random();
-      return awesomeThing;
-    });
+    this.getTec = getTec;
+
+    function getTec() {
+      return data;
+    }
   }
-}
+
+})();

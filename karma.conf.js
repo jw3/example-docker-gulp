@@ -7,7 +7,6 @@ var _ = require('lodash');
 var wiredep = require('wiredep');
 
 var pathSrcHtml = [
-  path.join(conf.paths.tmp, '/serve/**/*.html'),
   path.join(conf.paths.src, '/**/*.html')
 ];
 
@@ -19,7 +18,10 @@ function listFiles() {
 
   var patterns = wiredep(wiredepOptions).js
     .concat([
-      path.join(conf.paths.tmp, '/serve/app/index.module.js'),
+      path.join(conf.paths.src, '/app/**/*.module.js'),
+      path.join(conf.paths.src, '/app/**/*.js'),
+      path.join(conf.paths.src, '/**/*.spec.js'),
+      path.join(conf.paths.src, '/**/*.mock.js'),
     ])
     .concat(pathSrcHtml);
 
@@ -47,18 +49,23 @@ module.exports = function(config) {
     autoWatch: false,
 
     ngHtml2JsPreprocessor: {
-      stripPrefix: '(' + conf.paths.src + '/|' + conf.paths.tmp + '/serve/)',
+      stripPrefix: conf.paths.src + '/',
       moduleName: 'exampleAngular'
     },
 
     logLevel: 'WARN',
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'angular-filesort'],
+
+    angularFilesort: {
+      whitelist: [path.join(conf.paths.src, '/**/!(*.html|*.spec|*.mock).js')]
+    },
 
     browsers : ['PhantomJS'],
 
     plugins : [
       'karma-phantomjs-launcher',
+      'karma-angular-filesort',
       'karma-coverage',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor'

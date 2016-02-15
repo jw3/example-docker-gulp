@@ -8,7 +8,7 @@ var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
-gulp.task('partials', ['markups'], function () {
+gulp.task('partials', function () {
   return gulp.src([
     path.join(conf.paths.src, '/app/**/*.html'),
     path.join(conf.paths.tmp, '/serve/app/**/*.html')
@@ -44,6 +44,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.rev())
     .pipe(jsFilter)
     .pipe($.sourcemaps.init())
+    .pipe($.ngAnnotate())
     .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify'))
     .pipe($.sourcemaps.write('maps'))
     .pipe(jsFilter.restore)
@@ -84,14 +85,14 @@ gulp.task('other', function () {
 
   return gulp.src([
     path.join(conf.paths.src, '/**/*'),
-    path.join('!' + conf.paths.src, '/**/*.{html,css,js,less,ts,haml}')
+    path.join('!' + conf.paths.src, '/**/*.{html,css,js,less}')
   ])
     .pipe(fileFilter)
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')));
 });
 
 gulp.task('clean', function () {
-  return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/partials'), path.join(conf.paths.tmp, '/serve')]);
+  return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
 
 gulp.task('build', ['html', 'fonts', 'other']);
